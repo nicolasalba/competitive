@@ -1,0 +1,1 @@
+competitive: /home/fundacion/CLionProjects/competitive/main.cpp:89: int main(): Assertion `false' failed.
