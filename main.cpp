@@ -141,5 +141,5 @@ const int N = 2e5 + 10;
 // You can do it
 
 void solve() {
-
+    cout << "hello\n";
 }
