@@ -1,5 +1,5 @@
 // FFT multiplies polinomial 'a' and 'b' in nlogn
-
+// If TLE, you could change to double. 
 using cd = complex<long double>;
 void fft(vector<cd> & a, bool invert) {
     ll n = a.size();

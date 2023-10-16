@@ -1,0 +1,108 @@
+// FFT multiplies polinomial 'a' and 'b' in nlogn
+// Tomando K elementos de un conjunto de numeros del 1 a 1000 repitiendo elementos, imprimir cuales numeros puedes sumar.
+// n: 3 k: 2
+// 1 2 3
+// ans: 2 3 4 5 6
+
+using cd = complex<long double>;
+void fft(vector<cd> & a, bool invert) {
+    ll n = a.size();
+
+    for (ll i = 1, j = 0; i < n; i++) {
+        ll bit = n >> 1;
+        for (; j & bit; bit >>= 1)
+            j ^= bit;
+        j ^= bit;
+
+        if (i < j)
+            swap(a[i], a[j]);
+    }
+
+    for (ll len = 2; len <= n; len <<= 1) {
+        long double ang = 2 * PI / len * (invert ? -1 : 1);
+        cd wlen(cos(ang), sin(ang));
+        for (ll i = 0; i < n; i += len) {
+            cd w(1);
+            for (ll j = 0; j < len / 2; j++) {
+                // modify to have to have one or zero
+
+                cd u = a[i+j], v = a[i+j+len/2] * w;
+
+                a[i+j] = u + v;
+                a[i+j+len/2] = u - v;
+                w *= wlen;
+            }
+        }
+    }
+
+    if (invert) {
+        for (cd & x : a)
+            x /= n;
+    }
+}
+
+vector<ll> multiply(vector<ll> const& a, vector<ll> const& b) {
+    vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
+    ll n = 1;
+    while (n < a.size() + b.size())
+        n <<= 1;
+    fa.resize(n);
+    fb.resize(n);
+
+    fft(fa, false);
+    fft(fb, false);
+    for (ll i = 0; i < n; i++)
+        fa[i] *= fb[i];
+    fft(fa, true);
+
+    vector<ll> result(n);
+    for (ll i = 0; i < n; i++)
+        // result[i] = round(fa[i].real());
+        result[i] = int(fa[i].real() + 0.5); // extra
+
+    // extra
+    for (ll i = 0; i < n; i++) {
+        result[i] = result[i] > 0; // just take in to account if it exists
+        // You could delete this for to have the quantity, but take care of overflows
+    }
+    while (result.back() == 0) {
+        result.pop_back();
+    }
+    // extra
+    return result;
+}
+
+vector<ll> pou(vector<ll> const &a, ll k) {
+    vector<ll> res = {1};
+    vector<ll> b = a;
+    while (k > 0) {
+        if (k & 1) {
+            res = multiply(res, b);
+        }
+        k >>= 1;
+        if (k == 0) break;
+        b = multiply(b, b);
+    }
+    return res;
+}
+
+void test_case() {
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> poly(1001);
+    for (int i = 0; i < n; i++) {
+        ll x;
+        cin >> x;
+        poly[x]++;
+        poly[x] = poly[x] > 0;
+    }
+
+    vector<ll> hi = pou(poly, k);
+    for (int i = 0; i < hi.size(); i++) {
+        if (hi[i]) {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+}
+

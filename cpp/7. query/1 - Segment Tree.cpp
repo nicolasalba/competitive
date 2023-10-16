@@ -24,7 +24,7 @@ void update(int i, int l, int r, int pos, int diff) {
 		} else { // node
 			int mid = (l + r) / 2;
 			update(i * 2 + 1, l, mid, pos, diff);
-			updaet(i * 2 + 2, mid + 1, r, pos, diff);
+			update(i * 2 + 2, mid + 1, r, pos, diff);
 			tree[i] = tree[i * 2 + 1] + tree[i * 2 + 2];
 			// tree[i] = compare(...)
 		}

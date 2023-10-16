@@ -14,3 +14,18 @@ int editDistance(string a, string b, int m, int n)
                     editDistance(a, b, m - 1, n - 1) // Replace
                 });
 }
+
+// My own
+ll editDistance(string &s, string &t) {
+    ll n = s.size();
+    ll m = t.size();
+    vvl dp(n+1, vl(m+1, 0));
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= m; j++) {
+            if (min(i, j) == 0) dp[i][j] = max(i, j);
+            else if (s[i-1] == t[j-1]) dp[i][j] = dp[i-1][j-1];
+            else dp[i][j] = min(dp[i-1][j], min(dp[i][j-1], dp[i-1][j-1])) + 1;
+        }
+    }
+    return dp[n][m];
+}
