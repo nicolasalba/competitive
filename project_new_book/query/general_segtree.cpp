@@ -1,9 +1,9 @@
 // >>>>>>>>> Implement
 struct Node { ll x = 0; };
 
-Node e() { return Node(); }
+Node e() { return Node(); } // null element
  
-Node op(Node &a, Node &b) {
+Node op(Node &a, Node &b) { // operation
     Node c;
     c.x = a.x + b.x;
     return c;
@@ -49,6 +49,8 @@ struct segtree {
     }
  
     Node get(int i) {
-        return query(i, i);
+        return query(i, i); // improve to o(1)
     }
+    
+    // TODO: implement left, right binary search
 };
