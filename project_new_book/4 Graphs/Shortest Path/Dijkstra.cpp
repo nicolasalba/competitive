@@ -1,17 +1,18 @@
-/* Dijkstra
+/* Dijkstra O(M + N * log M)
 Finds the shortest path in a directed or undirected 
 graph with non-negative weights. */
 
 const int inf = 1e9; // check max possible dist!!!!
 vector<pair<int, int>> adj[n];
 bool processed[n];
-ll distance[n];
+ll distance[n]; // Distance from Start to 'i'
 
 void dijkstra() {
 	priority_queue<pair<int, int>> q;
 	for (int i = 0; i < n; i++) {
 		distance[i] = inf;
 	}
+	int start = 0;
 	distance[start] = 0;
 	q.push({0, start});
 	while (q.size() > 0) {

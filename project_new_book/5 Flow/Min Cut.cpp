@@ -17,7 +17,7 @@ void test_case() {
     Dinitz f(n,0,n-1); // add Dinitz for maxFlow!!
     for (int i =0;i<m;i++) {
         ll x, y;cin >>x >> y;x--,y--;
-        g[x].pb(y); g[y].pb(x); // in this example is bidirectional
+        g[x].pb(y); g[y].pb(x); //this example the graph is bidirectional
         f.addEdge(x,y,1); f.addEdge(y,x,1);
     }
     f.maxFlow(); // step 1

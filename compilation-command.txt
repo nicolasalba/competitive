@@ -1,0 +1,1 @@
+notebook-generator project_new_book/ -a "Nicolás Alba Murillo" --output "Notebook-Nacional-2024.pdf" --size 11 --columns 2 --image logo-umss.png 
