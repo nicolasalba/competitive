@@ -25,7 +25,7 @@ void decompose(int v, int h) {
     }
 }
 
-segtree tree; // ADD SegTree
+segtree tree; // !!ADD SegTree
 vector<ll> values;
 void init() { 
     int n = adj.size();
@@ -40,11 +40,11 @@ void init() {
 }
 
 int seg_query(int a, int b) {
-    return tree.query(a, b).x;
+    return tree.query(a, b).x; // !! depends of segtree
 }
 
 void update_query(int node, int val) {
-    tree.update(pos[node], { val });
+    tree.update(pos[node], { val }); // depends of segtree
 }
 
 int query(int a, int b) {
