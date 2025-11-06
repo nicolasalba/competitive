@@ -28,6 +28,7 @@ void test_case() {
     for (int i =n-2;i>=0;i--) {
         for (int j = i+1;j<n;j++) {
             dp[i][j] = inf; // set to inf, any option is better, or use -1 or a flag!!
+ //note about dp[i][j] is that I set inf instead of cost(i,j) and it got accepted, not sure why
             ll cost = sum(i,j); // depends of problem
             for (int k = opt[i][j-1]; k<= min(j-1ll,opt[i+1][j]);k++) {
                 ll actual = dp[i][k] + dp[k+1][j] + cost;
@@ -41,3 +42,6 @@ void test_case() {
     
     cout << dp[0][n-1] << "\n";
 }
+
+// https://cses.fi/problemset/task/2088
+// https://www.spoj.com/problems/BRKSTRNG/
