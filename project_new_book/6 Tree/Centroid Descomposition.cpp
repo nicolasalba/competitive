@@ -7,6 +7,7 @@ void init(int n) {
     alive = vector<bool>(n+1, true);
     sz = vector<int>(n+1);
     adj = vector<vector<ll>>(n+1);
+    // belongs = vector<vector<pair<ll,ll>>>(n+1); // !! for online
 }
 
 int get_sz(int x, int p) {
