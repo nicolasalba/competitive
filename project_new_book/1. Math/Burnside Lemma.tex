@@ -1,0 +1,184 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{titlesec}
+
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{0.8cm}
+\setlength{\parskip}{3pt}
+
+\titlespacing*{\section}{0pt}{10pt}{6pt}
+\titlespacing*{\subsection}{0pt}{6pt}{4pt}
+
+\begin{document}
+
+\title{\vspace{-0.5cm}Burnside y Pólya -- Resumen}
+\date{}
+\maketitle
+\vspace{-0.5cm}
+
+\section*{Teoría}
+
+Sirve para contar cuántos objetos realmente distintos existen cuando
+algunos se consideran iguales bajo ciertas operaciones
+(rotaciones, simetrías, intercambios, etc.).
+
+Sea \(G\) un grupo que actúa sobre un conjunto.
+Sea \(C(\pi)\) el número de ciclos de la permutación \(\pi\).
+
+\subsection*{Lema de Burnside}
+
+\[
+|\text{órbitas}| = \frac{1}{|G|}\sum_{\pi\in G} I(\pi)
+\]
+
+\(I(\pi)\): configuraciones invariantes bajo \(\pi\).  
+La respuesta es el promedio de configuraciones fijas.
+
+\subsection*{Teorema de Pólya ($k$ colores)}
+
+\[
+|\text{órbitas}| = \frac{1}{|G|}\sum_{\pi\in G} k^{C(\pi)}
+\]
+
+Cada ciclo puede colorearse independientemente.
+
+% -------------------------------------------------------------
+
+\section*{CSES 2209 -- Necklaces}
+
+Collares de \(n\) perlas con \(k\) colores,
+equivalentes por rotación.
+
+Ejemplo de igualdad:
+
+Para \(n=4\),
+
+\[
+ABCD \sim BCDA \sim CDAB \sim DABC
+\]
+
+Todas son la misma rotación.
+
+Grupo \(C_n\), \(|G| = n\).
+
+\[
+\boxed{
+\frac{1}{n}\sum_{i=0}^{n-1} k^{\gcd(i,n)}
+=
+\frac{1}{n}\sum_{d\mid n}\phi\!\left(\frac{n}{d}\right)k^d
+}
+\]
+
+% -------------------------------------------------------------
+
+\section*{CSES 2210 -- Grids}
+
+Grillas binarias \(n\times n\),
+equivalentes por rotaciones.
+
+Ejemplo de igualdad:
+
+\[
+\begin{matrix}
+1 & 0 \\
+0 & 1
+\end{matrix}
+\quad\sim\quad
+\begin{matrix}
+0 & 1 \\
+1 & 0
+\end{matrix}
+\]
+
+Son iguales bajo rotación de 90°.
+
+Grupo \(C_4\), \(k=2\).
+
+\[
+a=\left(\frac{n}{2}\right)\left(\frac{n+1}{2}\right),
+\qquad
+o=n\bmod 2
+\]
+
+\[
+\boxed{
+\frac{1}{4}
+\left(
+2^{n^2}
++
+2^{2a+o}
++
+2\cdot 2^{a+o}
+\right)
+}
+\]
+
+% -------------------------------------------------------------
+
+\section*{CF 1065E -- Transmutation}
+
+Cadena de longitud \(n\) sobre alfabeto de tamaño \(k\).
+
+Para cada \(b_i\): invertir prefijo y sufijo de longitud \(b_i\) e intercambiarlos.
+
+Ejemplo simple:
+
+Sea \(n=6\), \(b_1=2\).
+
+\[
+\underline{AB} \, C D \, \underline{EF}
+\quad\longrightarrow\quad
+\underline{FE} \, C D \, \underline{BA}
+\]
+
+Ambas cadenas son equivalentes.
+
+\[
+1\le b_1<\dots<b_m
+\]
+
+\[
+d_1=b_1,\qquad d_i=b_i-b_{i-1}
+\]
+
+\textbf{Estructura.}
+
+Solo afectan \(2b_m\) extremos.  
+Centro libre:
+
+\[
+k^{\,n-2b_m}
+\]
+
+Cada capa \(d_i\) es independiente:
+
+\[
+\text{identidad: } k^{2d_i}
+\qquad
+\text{swap: } k^{d_i}
+\]
+
+Podemos usar o no cada \(b_i\) ⇒ grupo de tamaño \(2^m\).
+
+\textbf{Burnside:}
+
+\[
+\boxed{
+k^{\,n-2b_m}
+\prod_{i=1}^{m}
+\frac{k^{2d_i}+k^{d_i}}{2}
+}
+\]
+
+\[
+\boxed{
+k^{\,n-b_m}
+\cdot
+\frac{1}{2^{m}}
+\prod_{i=1}^{m}(1+k^{d_i})
+}
+\]
+
+\end{document}
+
