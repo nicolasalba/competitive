@@ -10,9 +10,7 @@
   n! = sumi=0,i<=n,{cnk(n,i)!i}
   d[i] = (d[i-1]+d[i-2])*(i-1)
 */
-const int mxN = 2e6 + 10; // max number
-ll add(ll x, ll y) { return (x+y)%MOD; }
-ll mul(ll x, ll y) { return (x*y)%MOD; }
+const int mxN = 2e6 + 10;
 vl subFact(mxN);
 void init() {
     subFact[0] = 1;

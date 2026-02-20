@@ -1,5 +1,5 @@
 /*
-Return Catalan Convolution.
+Catalan Convolution.
 
 Convolution for k=3
 ((( A ) B ) C ) D
@@ -7,32 +7,7 @@ Convolution for k=3
 Where A + B + C + D = N, for N + 1
 */
 
-const int MOD = 1e9 + 7;
-ll mul(ll x, ll y) { return (x*y)%MOD; }
-ll pot(ll x, ll y) {
-    if(y==0) return 1;
-    ll ans = pot(x,y/2);
-    ans = mul(ans,ans);
-    if (y&1)ans=mul(ans,x);
-    return ans;
-}
-ll inv(ll x) { return pot(x, MOD-2); }
-
-
-// mxN it the double of the max input N, plus max K
-const int mxN = 2e6 + 1e6 + 10;
-vl fact(mxN,1);
-ll cnk(ll n, ll k) {
-    if (k < 0 || n < k) return 0;
-    ll nOverK = mul(fact[n],inv(fact[k]));
-    return mul(nOverK,inv(fact[n-k]));
-}
-
-void init() {
-    for (int i =1;i<=mxN;i++) {
-        fact[i] = mul(fact[i-1],i);
-    }
-}
+ll cnk(ll n, ll k);
 
 // for parethesis example
 // number of n+k pairs having k open parethesis at beginning
