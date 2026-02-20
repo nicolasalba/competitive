@@ -123,7 +123,7 @@ def ingest() -> list[tuple[str, list[tuple[str, str]]]]:
                         txt = filepath.read_text()
                         txt = limpiar_saltos(txt)
                         # if not filename.endswith(".py"):
-                        #     txt = unir_lineas_cortas(txt) # Comentar si no es necesario
+                        txt = unir_lineas_cortas(txt) # Comentar si no es necesario
                         sec.append((fname, file_contents(filename, txt)))
                 sections.append((secname, sec))
     return sections
@@ -168,7 +168,7 @@ class Conf:
         p.add_argument("--print-source", action="store_true", help="Print Typst source instead of compiling a PDF")
         p.add_argument("-u", "--university", default="<university>", help="University name")
         p.add_argument("-t", "--team", default="<team>", help="Team name")
-        p.add_argument("--font-size", default="15.984pt", help="Size of the font used for code")
+        p.add_argument("--font-size", default="11pt", help="Size of the font used for code")
         p.add_argument("--column-count", default="3", help="Number of columns")
         p.add_argument("--column-gutter", default="5mm", help="Space between columns")
         p.add_argument("--margin", default="10mm", help="Page margin")
