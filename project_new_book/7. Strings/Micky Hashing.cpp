@@ -5,7 +5,6 @@ ll pot(ll x, ll y, ll m) {
     if (y&1) ans = (ans*x)%m;
     return ans;
 }
- 
 struct Hash {
     int p = 997, m[2], in[2];
     vl h[2],inv[2];
@@ -24,7 +23,6 @@ struct Hash {
             }
         }
     }
- 
     ll get(int b, int e) {
         e++;
         ll ha[2];
