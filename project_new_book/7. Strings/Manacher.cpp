@@ -1,4 +1,3 @@
-Devuelve un vector p donde, para cada i, p[i] es igual al largo del palindromo mas largo con centro en i.
 string parse(string &s) {
     string t = "%";
     for (auto &c : s) t.pb('#'), t.pb(c);
@@ -6,8 +5,7 @@ string parse(string &s) {
     return t;
 }
 vector<int> manacher(string &s) {
-    string t = parse(s);
-    int n = t.size(), c = 0, r = 0;
+    string t = parse(s);int n = t.size(), c = 0, r = 0;
     vector<int> p(n, 0);
     for (int i = 1; i < n-1; i++) {
         int j = c - (i-c) ;

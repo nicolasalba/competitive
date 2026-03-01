@@ -1,7 +1,3 @@
-// Very useful for some DP's with strings
-// aut[i][j], you are in 'i' position, and choose character 'j', the next position.
-const int MAXN = 1e5 + 5, alpha = 26;
-const char L = 'A';
 int aut[MAXN][alpha]; // aut[i][j] = a donde vuelvo si estoy en i y pongo una j
 void build(string &s) {
     int lps = 0;

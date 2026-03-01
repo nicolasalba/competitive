@@ -1,8 +1,7 @@
 struct node {
     int next[alpha], end;
     // link -> back-edge, exit -> super link, 
-    // cnt -> saber para conteo de posibles
-    // a lo mucho es: n*sqrt(n)
+    // cnt -> saber para conteo de posibles n*sqrt(n)
     int link = 0, exit = 0, cnt; // para aho corasick
     int& operator [] (int i) { return next[i]; }
 };
@@ -17,8 +16,7 @@ void add_str(string &s, int id = 1) {
         }
         u = trie[u][c];
     }
-    trie[u].end = id; // con id > 0
-    // trie[u].cnt++; // para aho corasick
+    trie[u].end = id;
 }
 void build_ac() {
     queue<int> q; q.push(0);
@@ -36,7 +34,6 @@ void build_ac() {
         }
     }
 }
-vector<int> cnt; 
 void run_ac(string &s) {
     int u = 0, sz = s.size();
     for (int i = 0; i < sz; ++i) {
@@ -46,7 +43,7 @@ void run_ac(string &s) {
         int x = u;
         while (x) {
             int id = trie[x].end;
-            if (id) cnt[id-1]++;
+            if (id) cnt[id-1]++; // end y superlink
             x = trie[x].exit;
         }
     }
