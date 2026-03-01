@@ -1,5 +1,4 @@
 // Multiplication of Polynomials in O(n^1.58)
-// with any Module that you want
 #define ll long long
 const int MOD = 1e9+7;
 #define poly vector<ll>
@@ -7,31 +6,22 @@ const int MOD = 1e9+7;
 typedef int tp;
 
 ll sum(ll x, ll y) {
-    ll ans = (x + y) % MOD;
-    if (ans < 0) ans += MOD;
-    return ans;
-}
+  ll ans=(x+y)%MOD; if(ans<0) ans+=MOD; return ans; }
 
 ll mult(ll x, ll y) {
-    ll ans = (x % MOD) * (y % MOD);
-    ans %= MOD;
-    if (ans < 0) ans += MOD;
-    return ans;
-}
+  ll ans=(x%MOD)*(y%MOD)%MOD;if(ans<0)ans+=MOD;
+  return ans; }
 
 #define add(n,s,d,k) \
     fore(i,0,n)(d)[i] = sum((d)[i],mult((s)[i],k))
 
 tp* ini(int n){
-    tp *r=new tp[n];fill(r,r+n,0);
-    return r;
-}
+    tp *r=new tp[n];fill(r,r+n,0); return r; }
 void karatsura(int n, tp* p, tp* q, tp* r){
-	if(n<=0)return;
-	if(n<35)
-	        fore(i,0,n)
-	        fore(j,0,n)
-	        r[i+j]=sum(r[i+j], mult(p[i],q[j]));
+  if(n<=0)return;
+  if(n<35)
+	fore(i,0,n)
+	  fore(j,0,n) r[i+j]=sum(r[i+j], mult(p[i],q[j]));
 	else {
 		int nac=n/2,nbd=n-n/2;
 		tp *a=p,*b=p+nac,*c=q,*d=q+nac;
@@ -56,4 +46,3 @@ vector<tp> multiply(vector<tp> p0, vector<tp> p1){
 	free(p);free(q);free(r);
 	return rr;
 }
-

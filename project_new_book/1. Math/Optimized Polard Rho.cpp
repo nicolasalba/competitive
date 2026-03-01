@@ -1,5 +1,4 @@
 // Fast factorization with big numbers, use fact method
-// Seems to be O(log^3(n)) !!! Need revision
 #define fore(i, b, e)	for(int i = b; i < e; i++)
 ll gcd(ll a, ll b){return a?gcd(b%a,a):b;}
 ll mulmod(ll a, ll b, ll m) {
@@ -13,16 +12,13 @@ ll expmod(ll b, ll e, ll m){
 }
 bool is_prime_prob(ll n, int a){
   if(n==a)return true;
-  ll s=0,d=n-1;
-  while(d%2==0)s++,d/=2;
+  ll s=0,d=n-1; while(d%2==0)s++,d/=2;
   ll x=expmod(a,d,n);
   if((x==1)||(x+1==n))return true;
   fore(_,0,s-1){
     x=mulmod(x,x,n);
-    if(x==1)return false;
-    if(x+1==n)return true;
-  }
-  return false;
+    if(x==1)return false; if(x+1==n)return true;
+  } return false;
 }
 bool rabin(ll n){ // true iff n is prime
   if(n==1)return false;
@@ -30,7 +26,6 @@ bool rabin(ll n){ // true iff n is prime
   fore(i,0,9)if(!is_prime_prob(n,ar[i]))return false;
   return true;
 }
-// optimized version: replace rho and fact with the following:
 const int MAXP=1e6+1; // sieve size
 int sv[MAXP]; // sieve
 ll add(ll a, ll b, ll m){return (a+=b)<m?a:a-m;}
@@ -43,8 +38,7 @@ ll rho(ll n){
       *py++=y=add(mulmod(y,y,n),c,n);
       *py++=y=add(mulmod(y,y,n),c,n);
       if((x=*px++)==y)break;
-      ll t=p;
-      p=mulmod(p,abs(y-x),n);
+      ll t=p; p=mulmod(p,abs(y-x),n);
       if(!p)return gcd(t,n);
       if(++v==26){
         if((p=gcd(p,n))>1&&p<n)return p;
@@ -55,14 +49,10 @@ ll rho(ll n){
   }
 }
 void init_sv(){
-  fore(i,2,MAXP)if(!sv[i])for(ll j=i;j<MAXP;j+=i)sv[j]=i;
+fore(i,2,MAXP)if(!sv[i])for(ll j=i;j<MAXP;j+=i)sv[j]=i;
 }
-void fact(ll n, map<ll,int>& f){ // call init_sv first!!!
-  for(auto&& p:f){
-    while(n%p.F==0){
-      p.S++; n/=p.F;
-    }
-  }
+void fact(ll n, map<ll,int>& f){ //call init_sv before!
+  for(auto&& p:f){ while(n%p.F==0){ p.S++; n/=p.F; } }
   if(n<MAXP)while(n>1)f[sv[n]]++,n/=sv[n];
   else if(rabin(n))f[n]++;
   else {ll q=rho(n);fact(q,f);fact(n/q,f);}

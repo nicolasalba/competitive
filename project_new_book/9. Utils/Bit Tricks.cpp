@@ -5,8 +5,6 @@ y = x | (x+1)  // Turn on rightmost 0bit
 y = ~x & (x+1) // Isolate rightmost 0bit
 // If x is of long type, use __builtin_popcountl(x)
 // If x is of long long type, use __builtin_popcountll(x)
-// 1. Counts the number of one’s(set bits) in an integer.
-__builtin_popcount(x)
 // 2. Checks the Parity of a number. Returns true(1) if the
 // number has odd number of set bits, else it returns
 // false(0) for even number of set bits.

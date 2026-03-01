@@ -13,19 +13,17 @@ ll addmod(ll a, ll b){
   ll r=a+b;if(r>=MOD)r-=MOD;return r;}
 ll submod(ll a, ll b){ll r=a-b;if(r<0)r+=MOD;return r;}
 ll pm(ll a, ll e){
-	ll r=1;
-	while(e){
-		if(e&1)r=mulmod(r,a);
-		e>>=1;a=mulmod(a,a);
-	}
-	return r;
+  ll r=1;
+  while(e){
+	if(e&1)r=mulmod(r,a); e>>=1;a=mulmod(a,a); }
+  return r;
 }
 
 struct CD {
-	ll x;
-	CD(ll x):x(x){}
-	CD(){}
-	ll get()const{return x;}
+  ll x;
+  CD(ll x):x(x){}
+  CD(){}
+  ll get()const{return x;}
 };
 CD operator*(const CD& a, const CD& b){
   return CD(mulmod(a.x,b.x));}
@@ -53,7 +51,7 @@ void dft(CD* a, ll n, bool inv){
 		}
 	}
 	if(inv){
-		CD z(pm(n,MOD-2)); // pm: modular exponentiation
+		CD z(pm(n,MOD-2)); // pm:modular exponentiation
 		fore(i,0,n)a[i]=a[i]*z;
 	}
 }
