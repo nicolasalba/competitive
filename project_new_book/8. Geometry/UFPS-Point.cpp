@@ -1,3 +1,20 @@
+// esto me pidio alex agregar
+lf angle(pt a) {
+    return atan2(a.y,a.x);
+}
+lf angle(pt a) {
+    lf r = abs(a);
+    return (a.y < 0? -1: 1)*acos(a.x / r);
+}
+lf angle(pt a, pt b) {
+    lf aa = angle(a);
+    lf bb = angle(b);
+    
+    lf dif = abs(aa - bb);
+    return min(dif, 2*PI - dif); 
+}
+// esto pidio alex agregar
+
 typedef double lf;
 const lf eps = 1e-9;
 const lf PI = acos(-1.0);

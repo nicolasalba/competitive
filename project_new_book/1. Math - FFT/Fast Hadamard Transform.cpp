@@ -34,20 +34,16 @@ vector<ll> multiply(vector<ll>& p1, vector<ll>& p2){
 
 // maxime the OR of a pair of given nums and count 
 // how many pairs can get that maximum OR
-// tested: https://csacademy.com/contest/archive/task/maxor
+// tested: csacademy.com/contest/archive/task/maxor
 void test_case() {
     ll n; cin >> n;
     vl a(MAXN),b(MAXN);
     for (int i =0;i<n;i++) {
-        ll x;
-        cin >> x;
-        a[x]++;
-        b[x]++;
+        ll x; cin >> x; a[x]++; b[x]++;
     }
     vl c = multiply(a,b);
     pair<ll,ll> best = {0, c[0]};
-    for (int i = 0;i<MAXN;i++) {
+    for (int i = 0;i<MAXN;i++) 
         if (c[i]) best = {i,(c[i]-a[i])/2};
-    }
     cout <<best.F << " " << best.S << endl;
 }

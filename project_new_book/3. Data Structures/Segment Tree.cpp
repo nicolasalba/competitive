@@ -4,11 +4,10 @@ struct Node { ll mn = inf, mx = -inf; };
 
 Node e() { return Node(); } // op(a, e()) = a
  
-Node op(const Node &a, const Node &b) { // asociative property
-    Node c;
-    c.mn = min(a.mn, b.mn);
-    c.mx = max(a.mx, b.mx);
-    return c;
+Node op(const Node &a, const Node &b) {//asoc property
+  Node c;
+  c.mn = min(a.mn, b.mn); c.mx = max(a.mx, b.mx);
+  return c;
 }
 // <<<<<<<
  
@@ -29,12 +28,14 @@ struct segtree {
     }
  
     void build() {  // build the tree
-        for (int i = n - 1; i > 0; --i) t[i] = op(t[i*2], t[i*2+1]);
+        for (int i = n - 1; i > 0; --i) 
+          t[i] = op(t[i*2], t[i*2+1]);
     }
  
     // set value at position p
     void update(int p, const Node& value) {
-        for (t[p += n] = value; p >>= 1; ) t[p] = op(t[p*2], t[p*2+1]);
+        for (t[p += n] = value; p >>= 1; ) 
+          t[p] = op(t[p*2], t[p*2+1]);
     }
  
     // sum on interval [l, r]

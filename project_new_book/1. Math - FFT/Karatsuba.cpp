@@ -19,7 +19,9 @@ ll mult(ll x, ll y) {
     return ans;
 }
 
-#define add(n,s,d,k) fore(i,0,n)(d)[i] = sum((d)[i],mult((s)[i],k))
+#define add(n,s,d,k) \
+    fore(i,0,n)(d)[i] = sum((d)[i],mult((s)[i],k))
+
 tp* ini(int n){
     tp *r=new tp[n];fill(r,r+n,0);
     return r;

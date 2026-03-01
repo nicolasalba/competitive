@@ -10,7 +10,7 @@ struct union_find {
         comps = n;
     };
 
-    ll find(ll x) { return p[x] == x ? x : find(p[x]); }
+    ll find(ll x) { return p[x] == x ? x : find(p[x]);}
 
     int merge(ll a, ll b) {
         a = find(a);
@@ -53,9 +53,10 @@ struct segtree {
 
     void dfs(int id, vector<ll> &ans, union_find &uf) {
         ll cnt = 0;
-        for (auto & q : t[id]) cnt += uf.merge(q.a, q.b);
+        for (auto & q : t[id]) cnt+=uf.merge(q.a, q.b);
 
-        if (id < n) dfs(id*2, ans, uf), dfs(id*2+1,ans,uf);
+        if (id < n) 
+          dfs(id*2, ans, uf), dfs(id*2+1,ans,uf);
         else ans[id-n] = uf.comps;
      
         for (int i =0;i<cnt;i++) uf.rollback();

@@ -19,3 +19,8 @@ for i in range(0,len(nums)):
             # You can sum integer part, then apply the decimal division
 
 print("{:.6f}".format(ans)) #The rounding half even to six decimals
+
+# import ast as a
+# tree = ast.parse("x + 5")
+# print(ast.dump(tree, indent=2))
+# eval(string expr)

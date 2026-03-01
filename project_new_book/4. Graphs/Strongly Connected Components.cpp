@@ -1,11 +1,12 @@
 /* 
  Tarjan t(graph); provides you the SCC of that graph
- passing the adjancency list of the graph (as vector<vl>)
+ passing the adjancency listof the graph(as vector<vl>)
 
- This is 0-indexed, (but you can have node 0 as dummy-node)
+ This is 0-indexed,(butyou can have node0as dummy-node)
  Use t.comp[x] to get the component of node x
  SCC is the total number of components
- adjComp() gives you the adjacency list of strongly components
+ adjComp() 
+ gives you the adjacency list of strongly components
 */
 struct Tarjan {
     vl low, pre, comp;

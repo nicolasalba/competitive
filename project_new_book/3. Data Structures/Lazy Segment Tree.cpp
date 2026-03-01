@@ -1,7 +1,7 @@
 /*
 Lazy Iterative Seg Tree.
 
-This example is for https://cses.fi/problemset/task/1735/
+This example is for cses 1735
 */
 struct Node { ll x; };
 
@@ -25,19 +25,20 @@ Node mapping(Node node, ll sz, const Func &lazy) {
 
 Func comp(Func prev, const Func &actual) {
     if (actual.type==SET) return actual;
-    if (prev.type == SET) return {SET, prev.val + actual.val};
+    if (prev.type == SET) 
+        return {SET,prev.val+actual.val};
     return {ADD, prev.val + actual.val };
 }
 
 struct lazyseg {
-    ll n, h;
-    vector<Node> t;
-    vector<Func> lz;
-    vector<int> sz; // if sz of node needed
-    lazyseg(ll n) : n(n), t(2*n,e()), lz(n, id()), sz(2*n,1) {
-        h = 32-__builtin_clz(n);
-        for (int i = n-1;i>0;i--) sz[i] = sz[i*2]+sz[i*2+1];
-    }
+  ll n, h;
+  vector<Node> t;
+  vector<Func> lz;
+  vector<int> sz; // if sz of node needed
+  lazyseg(ll n) : n(n),t(2*n,e()),lz(n,id()),sz(2*n,1){
+    h = 32-__builtin_clz(n);
+    for (int i = n-1;i>0;i--) sz[i]=sz[i*2]+sz[i*2+1];
+  }
 
     void all_apply(ll x, const Func & f) {
         t[x] = mapping(t[x], sz[x], f);
@@ -101,60 +102,60 @@ struct lazyseg {
         }
     };
     
-    // Maximum r that satisfy g(op(t[l], t[l+1], ..., t[r-1])) = True
-    // if there's no g() that returns true, then r = l
-    template <class G> int max_right(int l, G g) {
-        assert(0 <= l && l <= n);
-        assert(g(e()));
-        if (l == n) return n;
-        l += n;
-        for (int i = h; i >= 1; i--) push(l >> i);
-        Node sm = e();
-        do {
-            while (l % 2 == 0) l >>= 1;
-            if (!g(op(sm, t[l]))) {
-                while (l < n) {
-                    push(l);
-                    l = (2 * l);
-                    if (g(op(sm, t[l]))) {
-                        sm = op(sm, t[l]);
-                        l++;
-                    }
-                }
-                return l - n;
-            }
-            sm = op(sm, t[l]);
-            l++;
-        } while ((l & -l) != l);
-        return n;
-    }
+  // Maximum r that satisfy g(op(t[l], t[l+1], ..., t[r-1])) = True
+  // if there's no g() that returns true, then r = l
+  template <class G> int max_right(int l, G g) {
+      assert(0 <= l && l <= n);
+      assert(g(e()));
+      if (l == n) return n;
+      l += n;
+      for (int i = h; i >= 1; i--) push(l >> i);
+      Node sm = e();
+      do {
+          while (l % 2 == 0) l >>= 1;
+          if (!g(op(sm, t[l]))) {
+              while (l < n) {
+                  push(l);
+                  l = (2 * l);
+                  if (g(op(sm, t[l]))) {
+                      sm = op(sm, t[l]);
+                      l++;
+                  }
+              }
+              return l - n;
+          }
+          sm = op(sm, t[l]);
+          l++;
+      } while ((l & -l) != l);
+      return n;
+  }
 
-    // If g is monotone, this is the minimum l that satisfies 
-    // g(op(a[l], a[l + 1], ..., a[r - 1])) = true.
-    template <class G> int min_left(int r, G g) {
-        assert(0 <= r && r <= n);
-        assert(g(e()));
-        if (r == 0) return 0;
-        ll size = n;
-        r += size;
-        for (int i = h; i >= 1; i--) push((r - 1) >> i);
-        Node sm = e();
-        do {
-            r--;
-            while (r > 1 && (r % 2)) r >>= 1;
-            if (!g(op(t[r], sm))) {
-                while (r < size) {
-                    push(r);
-                    r = (2 * r + 1);
-                    if (g(op(t[r], sm))) {
-                        sm = op(t[r], sm);
-                        r--;
-                    }
-                }
-                return r + 1 - size;
-            }
-            sm = op(t[r], sm);
-        } while ((r & -r) != r);
-        return 0;
-    }
+  // If g is monotone, this is the minimum l that satisfies 
+  // g(op(a[l], a[l + 1], ..., a[r - 1])) = true.
+  template <class G> int min_left(int r, G g) {
+      assert(0 <= r && r <= n);
+      assert(g(e()));
+      if (r == 0) return 0;
+      ll size = n;
+      r += size;
+      for (int i = h; i >= 1; i--) push((r - 1) >> i);
+      Node sm = e();
+      do {
+          r--;
+          while (r > 1 && (r % 2)) r >>= 1;
+          if (!g(op(t[r], sm))) {
+              while (r < size) {
+                  push(r);
+                  r = (2 * r + 1);
+                  if (g(op(t[r], sm))) {
+                      sm = op(t[r], sm);
+                      r--;
+                  }
+              }
+              return r + 1 - size;
+          }
+          sm = op(t[r], sm);
+      } while ((r & -r) != r);
+      return 0;
+  }
 };

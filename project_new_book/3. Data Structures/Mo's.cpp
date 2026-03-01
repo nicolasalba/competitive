@@ -2,17 +2,21 @@
 Mo's algorithm O((N + Queries)*SQRT(N))
 
 It answers queries offline using SQRT Descomposition, 
-sometimes get TLE when you have Set, Map, various iteration when adding,
-So you need to implement efficiently (with arrays) in O(1). You can answer
-questions like in a range, the number of distincts values.
+sometimes get TLE when you have Set, Map, various 
+iteration when adding, So you need to implement 
+efficiently (with arrays) in O(1). You can answer
+questions like in a range,the number of distincts values.
 */
-const int BLOCK_SIZE = 430; // For se 1e5=310, for 2e5=430 
+
+// For se 1e5=310, for 2e5=430 
+const int BLOCK_SIZE = 430; 
 
 struct query {
     int l, r, idx;
 
     bool operator <(query &other) const {
-        return MP(l / BLOCK_SIZE, r) < MP(other.l / BLOCK_SIZE, other.r);
+        return MP(l / BLOCK_SIZE, r) < 
+                MP(other.l / BLOCK_SIZE, other.r);
     }
 };
 

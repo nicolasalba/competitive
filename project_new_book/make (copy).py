@@ -78,15 +78,10 @@ def compose(sections: list[tuple[str, list[tuple[str, str]]]]) -> str:
         "conf": conf,
         "content": sections,
     }
-
-    # # Debug real (sin crear un set accidentalmente)
-    # print("Estos args:")
-    # print(serialize(args))
-
     return f"""
 #import "template.typ": compose
 #compose({serialize(args)})
-"""
+    """
 
 def limpiar_saltos(texto: str) -> str:
     # 1. Si la línea está vacía o solo tiene espacios/tabs, conviértela en un salto limpio

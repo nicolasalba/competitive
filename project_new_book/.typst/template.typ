@@ -6,7 +6,7 @@
   
   set page(flipped: not conf.portrait, margin: conf.margin, paper: conf.paper)
   set text(font: "New Computer Modern")
-  show raw: set text(font: "DejaVu Sans Mono", weight: 500, size: 9.5pt)
+  show raw: set text(font: "DejaVu Sans Mono", weight: 500, size: conf.font_size)
   set raw(theme: "themes/"+conf.theme+".tmTheme") if conf.theme != ""
   
   // Title

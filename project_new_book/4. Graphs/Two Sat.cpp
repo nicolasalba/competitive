@@ -16,7 +16,8 @@ struct sat2 {
   vector<int> tag;
   vector<bool> seen, value; 
   stack<int> st;
-  sat2(int n) : n(n), g(2, vector<vector<int>>(2*n)), tag(2*n), seen(2*n), value(2*n) { }
+  sat2(int n) : n(n), g(2, vector<vector<int>>(2*n)), 
+                tag(2*n), seen(2*n), value(2*n) { }
   int neg(int x) { return 2*n-x-1; }
   void add_or(int u, int v) { implication(neg(u), v); }
   void make_true(int u) { add_edge(neg(u), u); }
