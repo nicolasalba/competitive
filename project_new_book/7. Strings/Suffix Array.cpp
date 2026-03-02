@@ -1,5 +1,3 @@
-#define fore(i,a,b) for(int i=a,ThxDem=b;i<ThxDem;++i)
-#define SZ(s) int(s.size())
 #define RB(x) (x<n?r[x]:0)
 void csort(vector<int> &sa, vector<int> &r, int k){
 	int n=SZ(sa);
@@ -10,7 +8,6 @@ void csort(vector<int> &sa, vector<int> &r, int k){
 	fore(i,0,n)t[f[RB(sa[i]+k)]++]=sa[i];
 	sa=t;
 }
- 
 vector<int> constructSA(vector<int> &s){
 	int n=SZ(s),rank;
 	vector<int> sa(n),r(n),t(n);
@@ -27,8 +24,7 @@ vector<int> constructSA(vector<int> &s){
 	}
 	return sa;
 }
- 
-vector<int> computeLCP(vector<int> &s, vector<int> &sa){
+vector<int> computeLCP(vector<int> &s,vector<int> &sa){
 	int n=SZ(s),L=0;
 	vector<int> lcp(n),plcp(n),phi(n);
 	phi[sa[0]]=-1;
@@ -40,18 +36,15 @@ vector<int> computeLCP(vector<int> &s, vector<int> &sa){
 		L=max(L-1,0);
 	}
 	fore(i,0,n)lcp[i]=plcp[sa[i]];
+  // lcp[i] = lcp(sa[i-1], sa[i]);
 	return lcp;
 }
-
-
 void test_case() { // max element <= n
-    ll n; cin >> n; vector<int> nums(n); 
-    for (int i =0;i<n;i++) cin >> nums[i];
+    vector<int> nums;
     nums.pb(0); // min element 
     auto sa = constructSA(nums);
-    auto lcp = computeLCP(nums, sa); // lpc[i] = lcp(sa[i-1],sa[i])
+    auto lcp = computeLCP(nums, sa);
     sa.erase(sa.begin());
     lcp.erase(lcp.begin());
     nums.pop_back();
 }
-    

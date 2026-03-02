@@ -1,5 +1,4 @@
 const int N = 1e6 + 9; // Max size
-
 int power(long long n, long long k, const int mod) {
   int ans = 1 % mod;
   n %= mod;
@@ -11,7 +10,6 @@ int power(long long n, long long k, const int mod) {
   }
   return ans;
 }
-
 const int MOD1 = 127657753, MOD2 = 987654319;
 const int p1 = 137, p2 = 277;
 int ip1, ip2;
@@ -31,13 +29,11 @@ void init() { // Call init() first!!!
   }
 }
 struct Hashing {
-  int n;
-  string s; // 0 - indexed
+  int n; string s; // 0 - indexed
   vector<pair<int, int>> hs; // 1 - indexed
   Hashing() {}
   Hashing(string _s) {
-    n = _s.size();
-    s = _s;
+    n = _s.size(); s = _s;
     hs.emplace_back(0, 0);
     for (int i = 0; i < n; i++) {
       pair<int, int> p;
