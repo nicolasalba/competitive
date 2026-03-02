@@ -1,7 +1,5 @@
-// Multiply Poly with special Modules
 // MAXN must be power of 2 !!
 // MOD-1 needs to be a multiple of MAXN !!
-
 // #define int long long
 #define fore(i,a,b) for(ll i=a,ThxDem=b;i<ThxDem;++i)
 // const ll MOD=998244353,RT=3,MAXN=1<<18;
@@ -12,34 +10,23 @@ ll mulmod(__int128 a, __int128 b){
 ll addmod(ll a, ll b){
   ll r=a+b;if(r>=MOD)r-=MOD;return r;}
 ll submod(ll a, ll b){ll r=a-b;if(r<0)r+=MOD;return r;}
-ll pm(ll a, ll e){
-	ll r=1;
-	while(e){
-		if(e&1)r=mulmod(r,a);
-		e>>=1;a=mulmod(a,a);
-	}
-	return r;
-}
-
+ll pm(ll a, ll e){ ll r=1;
+  while(e){ if(e&1)r=mulmod(r,a); e>>=1;a=mulmod(a,a);}
+  return r; }
 struct CD {
-	ll x;
-	CD(ll x):x(x){}
-	CD(){}
-	ll get()const{return x;}
-};
+  ll x; CD(ll x):x(x){} CD(){}
+  ll get() const { return x; } };
 CD operator*(const CD& a, const CD& b){
-  return CD(mulmod(a.x,b.x));}
+  return CD(mulmod(a.x,b.x)); }
 CD operator+(const CD& a, const CD& b){
-  return CD(addmod(a.x,b.x));}
+  return CD(addmod(a.x,b.x)); }
 CD operator-(const CD& a, const CD& b){
-  return CD(submod(a.x,b.x));}
+  return CD(submod(a.x,b.x)); }
 vector<ll> rts(MAXN+9,-1);
 CD root(ll n, bool inv){
 	ll r=rts[n]<0?rts[n]=pm(RT,(MOD-1)/n):rts[n];
-	return CD(inv?pm(r,MOD-2):r);
-}
-CD cp1[MAXN+9],cp2[MAXN+9];
-ll R[MAXN+9];
+	return CD(inv?pm(r,MOD-2):r); }
+CD cp1[MAXN+9], cp2[MAXN+9]; ll R[MAXN+9];
 void dft(CD* a, ll n, bool inv){
 	fore(i,0,n)if(R[i]<i)swap(a[R[i]],a[i]);
 	for(ll m=2;m<=n;m*=2){
@@ -48,18 +35,12 @@ void dft(CD* a, ll n, bool inv){
 			CD w(1);
 			for(ll k=j,k2=j+m/2;k2<j+m;k++,k2++){
 				CD u=a[k];CD v=a[k2]*w;a[k]=u+v;
-        a[k2]=u-v;w=w*wi;
-			}
-		}
-	}
+        a[k2]=u-v;w=w*wi; } } }
 	if(inv){
-		CD z(pm(n,MOD-2)); // pm: modular exponentiation
-		fore(i,0,n)a[i]=a[i]*z;
-	}
-}
+		CD z(pm(n,MOD-2)); // pm:modular exponentiation
+		fore(i,0,n)a[i]=a[i]*z; } }
 poly multiply(poly& p1, poly& p2){
-	ll n=p1.size()+p2.size()+1;
-	ll m=1,cnt=0;
+	ll n=p1.size()+p2.size()+1;  ll m=1,cnt=0;
 	while(m<=n)m+=m,cnt++;
 	fore(i,0,m){R[i]=0;
     fore(j,0,cnt) R[i]=(R[i]<<1)|((i>>j)&1);}
@@ -72,5 +53,4 @@ poly multiply(poly& p1, poly& p2){
 	poly res;
 	n-=2;
 	fore(i,0,n)res.pb(cp1[i].x); // NTT
-	return res;
-}
+	return res; }

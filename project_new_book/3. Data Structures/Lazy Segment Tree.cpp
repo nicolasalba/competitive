@@ -1,106 +1,79 @@
-/*
-Lazy Iterative Seg Tree.
-
-This example is for cses 1735
-*/
 struct Node { ll x; };
-
 const ll SET = 1;
 const ll ADD = 2;
 struct Func { ll type, val; }; // applied Function
-
 Node e() { return { 0 }; }; // op(x, e()) = x
-
 Func id() { return {ADD, 0}; } // mapping(x, id()) = x
-
-Node op(Node &a, Node &b) { // associative property
-    return {a.x + b.x};
-}
-
+Node op(Node &a, Node &b) { return {a.x + b.x}; }
 Node mapping(Node node, ll sz, const Func &lazy) {
-    if (lazy.type == SET) node.x = lazy.val * sz;
-    else node.x += lazy.val * sz;
-    return node;
+  if (lazy.type == SET) node.x = lazy.val * sz;
+  else node.x += lazy.val * sz;
+  return node;
 }
-
 Func comp(Func prev, const Func &actual) {
-    if (actual.type==SET) return actual;
-    if (prev.type == SET) 
-        return {SET,prev.val+actual.val};
-    return {ADD, prev.val + actual.val };
+  if (actual.type==SET) return actual;
+  if (prev.type == SET) 
+    return {SET,prev.val+actual.val};
+  return {ADD, prev.val + actual.val };
 }
-
 struct lazyseg {
   ll n, h;
-  vector<Node> t;
-  vector<Func> lz;
+  vector<Node> t; vector<Func> lz;
   vector<int> sz; // if sz of node needed
   lazyseg(ll n) : n(n),t(2*n,e()),lz(n,id()),sz(2*n,1){
     h = 32-__builtin_clz(n);
     for (int i = n-1;i>0;i--) sz[i]=sz[i*2]+sz[i*2+1];
   }
-
-    void all_apply(ll x, const Func & f) {
-        t[x] = mapping(t[x], sz[x], f);
-        if (x<n) lz[x] = comp(lz[x], f);
+  void all_apply(ll x, const Func & f) {
+    t[x] = mapping(t[x], sz[x], f);
+    if (x<n) lz[x] = comp(lz[x], f);
+  }
+  void push(ll x) {
+    all_apply(x*2, lz[x]); all_apply(x*2+1, lz[x]);
+    lz[x] =id();
+  }
+  void build(ll x) { t[x] = op(t[x*2], t[x*2+1]); }
+  bool ok(ll x, ll i) { return ((x>>i)<<i)!=x; }
+  void update(ll p, Node v) {
+    p += n;
+    for (int i =h;i>0;i--) push(p>>i);
+    t[p] = v;
+    for (int i =1;i<=h;i++) build(p>>i);
+  }
+  Node query(ll l, ll r) {
+    if (l>r) return e();
+    l += n, r += n+1;
+    for (int i=h;i>0;i--) {
+      if (ok(l,i)) push(l>>i);
+      if (ok(r,i)) push((r-1)>>i);
     }
-
-    void push(ll x) {
-        all_apply(x*2, lz[x]);
-        all_apply(x*2+1, lz[x]);
-        lz[x] =id();
+    Node ansl = e(), ansr = e();
+    for (;l<r;l>>=1,r>>=1) {
+      if (l&1) ansl = op(ansl, t[l++]);
+      if (r&1) ansr = op(t[--r], ansr);
     }
-
-    void build(ll x) {
-        t[x] = op(t[x*2], t[x*2+1]);
+    return op(ansl, ansr);
+  }
+  void apply(ll l, ll r, const Func &f) {
+    if (l>r) return;
+    l += n, r += n+1;
+    for (int i =h;i>0;i--) {
+      if (ok(l,i)) push(l>>i);
+      if (ok(r,i)) push((r-1)>>i);
     }
-
-    bool ok(ll x, ll i) {
-        return ((x>>i)<<i)!=x;
+    {
+      int l2 = l, r2 = r;
+      for (;l<r;l>>=1,r>>=1) {
+          if (l&1) all_apply(l++, f);
+          if (r&1) all_apply(--r,f);
+      }
+      l = l2, r= r2;
     }
-
-    void update(ll p, Node v) {
-        p += n;
-        for (int i =h;i>0;i--) push(p>>i);
-        t[p] = v;
-        for (int i =1;i<=h;i++) build(p>>i);
+    for (int i =1;i<=h;i++) {
+      if (ok(l,i)) build(l>>i);
+      if (ok(r,i)) build((r-1)>>i);
     }
-
-    Node query(ll l, ll r) {
-        if (l>r) return e();
-        l += n, r += n+1;
-        for (int i=h;i>0;i--) {
-            if (ok(l,i)) push(l>>i);
-            if (ok(r,i)) push((r-1)>>i);
-        }
-        Node ansl = e(), ansr = e();
-        for (;l<r;l>>=1,r>>=1) {
-            if (l&1) ansl = op(ansl, t[l++]);
-            if (r&1) ansr = op(t[--r], ansr);
-        }
-        return op(ansl, ansr);
-    }
-
-    void apply(ll l, ll r, const Func &f) {
-        if (l>r) return;
-        l += n, r += n+1;
-        for (int i =h;i>0;i--) {
-            if (ok(l,i)) push(l>>i);
-            if (ok(r,i)) push((r-1)>>i);
-        }
-        {
-            int l2 = l, r2 = r;
-            for (;l<r;l>>=1,r>>=1) {
-                if (l&1) all_apply(l++, f);
-                if (r&1) all_apply(--r,f);
-            }
-            l = l2, r= r2;
-        }
-        for (int i =1;i<=h;i++) {
-            if (ok(l,i)) build(l>>i);
-            if (ok(r,i)) build((r-1)>>i);
-        }
-    };
+  };
     
   // Maximum r that satisfy g(op(t[l], t[l+1], ..., t[r-1])) = True
   // if there's no g() that returns true, then r = l

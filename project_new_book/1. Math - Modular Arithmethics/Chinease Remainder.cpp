@@ -1,21 +1,14 @@
-/*
-Finds this system congrence
+/* Finds this system congrence
 X = a_1 (mod m_1)
 X = a_2 (mod m_2)
 ...
-X = a_k (mod m_k)
-*/
-
+X = a_k (mod m_k) */
 ll x, y;
 ll euclid(ll a, ll b) {
-    if(b == 0) { x = 1; y = 0; return a; }
-    ll d = euclid(b, a%b);
-    ll aux = x;
-    x = y;
-    y = aux - a/b*y;
-    return d;
+  if(b == 0) { x = 1; y = 0; return a; }
+  ll d = euclid(b, a%b); ll aux = x;
+  x = y; y = aux - a/b*y; return d;
 }
-
 pair<ll, ll> crt(vector<ll> A, vector<ll> M) {
   ll n = A.size(), ans = A[0], lcm = M[0];
   for (int i = 1; i < n; i++) {

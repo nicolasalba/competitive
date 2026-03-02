@@ -1,15 +1,3 @@
-/*
-2-Sat (Boolean satisfiability problem with 2-clause literals)
-Complexity: O(n)
-Tested: https://cses.fi/problemset/task/1684
-
-To find a solution that makes this true with N boolean vars as form:
-  (x or y) and (~x or y) and (z or ~x) and d and (x => y) 
-
-Call s.satisfiable() to see if solution, and sat2.value to see
-values of variables
-*/
-
 struct sat2 {
   int n;
   vector<vector<vector<int>>> g;
@@ -23,25 +11,19 @@ struct sat2 {
   void make_true(int u) { add_edge(neg(u), u); }
   void make_false(int u) { make_true(neg(u)); }
   void eq(int u, int v) {
-    implication(u, v);
-    implication(v, u);
+    implication(u, v);  implication(v, u);
   }
   void diff(int u, int v) { eq(u, neg(v)); }
   void implication(int u, int v) {
-    add_edge(u, v);
-    add_edge(neg(v), neg(u));
+    add_edge(u, v);  add_edge(neg(v), neg(u));
   }
   void add_edge(int u, int v) {
-    g[0][u].push_back(v);
-    g[1][v].push_back(u);
+    g[0][u].push_back(v);  g[1][v].push_back(u);
   }
   void dfs(int id, int u, int t = 0) {
     seen[u] = true;
-    for(auto& v : g[id][u])
-      if(!seen[v])
-        dfs(id, v, t);
-    if(id == 0) st.push(u);
-    else tag[u] = t;
+    for(auto& v : g[id][u]) if(!seen[v]) dfs(id, v, t);
+    if(id == 0) st.push(u); else tag[u] = t;
   }
   void kosaraju() {
     for(int u = 0; u < n; u++) {

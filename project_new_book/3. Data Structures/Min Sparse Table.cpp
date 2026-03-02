@@ -1,15 +1,9 @@
 using Type = int;
-
-// Gets the minimum in a range [l,r] in O(1)
-// Preprocesing is O(n log n)
 struct min_sparse {
-
   int log;
   vector<vector<Type>> sparse;
-
   void init(vector<Type> &nums) {
-    int n = nums.size();
-    log = 0;
+    int n = nums.size(); log = 0;
     while (n) log++, n/=2;
     n = nums.size();
     sparse.assign(n, vector<Type>(log, 0));
@@ -21,11 +15,9 @@ struct min_sparse {
       }
     }
   }
-
   Type query(int x, int y) {
-      int n = y - x + 1;
-      int logg = -1;
-      while (n) logg++, n/=2; // TODO: improve this with fast builtin 
-      return min(sparse[x][logg], sparse[y-(1 << logg)+1][logg]);
+    int n=y-x+1; int logg = 31-__builtin_clz(n);
+    return min(sparse[x][logg], 
+              sparse[y-(1<<logg)+1][logg]);
   }
 };
