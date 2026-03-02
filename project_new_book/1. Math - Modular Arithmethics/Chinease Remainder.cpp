@@ -1,11 +1,8 @@
-/*
-Finds this system congrence
+/* Finds this system congrence
 X = a_1 (mod m_1)
 X = a_2 (mod m_2)
 ...
-X = a_k (mod m_k)
-*/
-
+X = a_k (mod m_k) */
 ll x, y;
 ll euclid(ll a, ll b) {
   if(b == 0) { x = 1; y = 0; return a; }

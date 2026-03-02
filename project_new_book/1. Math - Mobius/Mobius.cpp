@@ -1,11 +1,7 @@
 /*Mobius μ(n)
-
-μ(1)=1
-μ(n)=0 if square prime divides n
+μ(1)=1 , μ(n)=0 if square prime divides n
 μ(n)=(-1)^{#primes} otherwise
-
 Key identity: ∑_{d|n} μ(d) = [n==1] */
-
 const int mxN = 1e5 + 10;
 vl mo(mxN);
 void init() { // Call init() first !!!
@@ -13,7 +9,6 @@ void init() { // Call init() first !!!
   for (int i=1;i<mxN;i++) 
     for (int j=i+i;j<mxN;j+=i) mo[j]-=mo[i];
 }
-
 const int mxN = 1e6 + 10;
 vl sv(mxN),primes,mo(mxN); 
 void init() { 

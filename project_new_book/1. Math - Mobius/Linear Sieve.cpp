@@ -10,9 +10,5 @@ void init() { // O(n)
     }
   }
 }
-// O(prime_count(n)), only for n < mxN!!
-void fact(map<ll,int> &f, ll num) {
-  while (num>1) { ll p = sv[num];
-    while (num % p == 0) num/=p, f[p]++;
-  }
-}
+void fact(map<ll,int> &f,ll x){//O(p_count(n)), n<mxN!!
+  while (x>1){ll p=sv[x]; while(x%p==0)x/=p,f[p]++; } }

@@ -13,9 +13,6 @@ ll discrete_log(ll a, ll b, ll m) {
   int s = ceil(sqrt(m));  ll base = b;
   for(int i=0;i<s;i++){ w[base]=i; base=base*a%m; }
   base = expmod(a, s, m); ll key=tmp;
-  for (int i = 1; i <= s+1; i++) {
-    key = key*base % m;
-    if (w.count(key)) return i*s - w[key] + cnt;
-  }
-  return -1;
-}
+  for (int i = 1; i <= s+1; i++) { key = key*base % m;
+    if (w.count(key)) return i*s - w[key] + cnt; }
+  return -1; }

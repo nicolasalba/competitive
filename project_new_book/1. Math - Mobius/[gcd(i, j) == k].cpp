@@ -10,5 +10,4 @@ ll solve(ll a, ll b, ll k) {
   for (ll d = 1; d <= a; d++) {ans+=(a/d)*(b/d)*mo[d];}
   ll sub = 0;//Substracting equals, e.g. (1,2) to (2,1)
   for (ll d = 1;d <= a; d++) {sub+=(a/d)*(a/d)*mo[d];}
-  ans-=(sub-1)/2; return ans;
-}
+  ans-=(sub-1)/2; return ans;  }

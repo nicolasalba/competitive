@@ -1,17 +1,12 @@
-/*
-HopcroftKarp hk(n, m);
-hk.add(x, y), solo un sentido.
-hk.mm()
-*/
-struct HopcroftKarp {  // [0,n)->[0,m) (ids independent in each side)
+/* HopcroftKarp hk(n, m); hk.add(x, y),solo un sentido. 
+hk.mm(). // [0,n)->[0,m) (ids independi en cada lado)*/
+struct HopcroftKarp { 
   int n, m;
-  vector<vector<int>> g;
-  vector<int> mt, mt2, ds;
+  vector<vector<int>> g; vector<int> mt, mt2, ds;
   HopcroftKarp(int nn, int mm) : n(nn), m(mm), g(n) {}
   void add(int a, int b) { g[a].pb(b); }
   bool bfs() {
-    queue<int> q;
-    ds = vector<int>(n, -1);
+    queue<int> q; ds = vector<int>(n, -1);
     for (int i=0;i<n;i++)
         if (mt2[i] < 0) ds[i] = 0, q.push(i);
     bool r = false;
@@ -23,26 +18,18 @@ struct HopcroftKarp {  // [0,n)->[0,m) (ids independent in each side)
           ds[mt[y]] = ds[x] + 1, q.push(mt[y]);
         } else if (mt[y] < 0) r = true;
       }
-    }
-    return r;
-  }
+    } return r; }
   bool dfs(int x) {
     for (int y : g[x]) {
-      if (mt[y] < 0 || ds[mt[y]] == ds[x] + 1 && dfs(mt[y])) {
+      if (mt[y]<0||ds[mt[y]]==ds[x]+1&&dfs(mt[y])) {
         mt[y] = x, mt2[x] = y;
-        return true;
-      }
-    }
-    ds[x] = 1 << 30;
-    return false;
+        return true; } }
+    ds[x] = 1 << 30; return false;
   }
   int mm() {  // O(sqrt(V)*E)
     int r = 0;
     mt = vector<int>(m, -1);
     mt2 = vector<int>(n, -1);
-    while (bfs()) 
-        for (int i =0;i<n;i++) 
-            if (mt2[i] < 0) r += dfs(i);
-    return r;
-  }
-};
+    while (bfs()) for (int i =0;i<n;i++) 
+          if (mt2[i] < 0) r += dfs(i);
+    return r; } };
