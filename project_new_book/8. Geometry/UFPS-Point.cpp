@@ -1,7 +1,5 @@
 // esto me pidio alex agregar
-lf angle(pt a) {
-    return atan2(a.y,a.x);
-}
+lf angle(pt a) { return atan2(a.y,a.x); }
 lf angle(pt a) {
     lf r = abs(a);
     return (a.y < 0? -1: 1)*acos(a.x / r);
@@ -9,71 +7,87 @@ lf angle(pt a) {
 lf angle(pt a, pt b) {
     lf aa = angle(a);
     lf bb = angle(b);
-    
     lf dif = abs(aa - bb);
     return min(dif, 2*PI - dif); 
 }
 // esto pidio alex agregar
-
 typedef double lf;
 const lf eps = 1e-9;
 const lf PI = acos(-1.0);
 typedef double T;
 struct pt {
-    T x, y;
-    pt operator + (pt p) { return {x+p.x, y+p.y}; }
-    pt operator - (pt p) { return {x-p.x, y-p.y}; }
-    pt operator * (pt p) { return {x*p.x-y*p.y, x*p.y+y*p.x}; }
-    pt operator * (T d) { return {x*d, y*d}; }
-    pt operator / (lf d) { return {x/d, y/d}; } // only for floating point
-    bool operator == (pt b) { return x == b.x && y == b.y; }
-    bool operator != (pt b) { return !(*this == b); }
-    bool operator < (const pt &o) const { return y < o.y || (y == o.y && x < o.x); }
-    bool operator > (const pt &o) const { return y > o.y || (y == o.y && x > o.x); }
+  T x, y;
+  pt operator + (pt p) { 
+    return {x+p.x, y+p.y}; }
+  pt operator - (pt p) { return {x-p.x, y-p.y}; }
+  pt operator * (pt p) { 
+    return {x*p.x-y*p.y, x*p.y+y*p.x}; }
+  pt operator * (T d) { return {x*d, y*d}; }
+  pt operator / (lf d) { 
+    return {x/d, y/d}; } // only for floating point
+  bool operator == (pt b) { return x==b.x&&y == b.y; }
+  bool operator != (pt b) { return !(*this == b); }
+  bool operator < (const pt &o) const { 
+    return y < o.y || (y == o.y && x < o.x); }
+  bool operator > (const pt &o) const { 
+    return y > o.y || (y == o.y && x > o.x); }
 };
-int cmp(lf a, lf b) { return (a + eps < b ? -1 :(b + eps < a ? 1 : 0)); } // double comparator
+int cmp(lf a, lf b) { // double comparator
+  return (a + eps < b ? -1 :(b + eps < a ? 1 : 0)); } 
 
 T norm(pt a) { return a.x*a.x + a.y*a.y; }
 lf abs(pt a) { return sqrt(norm(a)); }
 lf arg(pt a) { return atan2(a.y, a.x); }
 pt unit(pt a) { return a/abs(a); }
-
-T dot(pt a, pt b) { return a.x*b.x + a.y*b.y; } // x = 90 -> cos = 0
-T cross(pt a, pt b) { return a.x*b.y - a.y*b.x; } // x = 180 -> sin = 0
-T orient(pt a, pt b, pt c) { return cross(b-a, c-a); } // clockwise = -
-pt rot(pt p, lf a) { return {p.x*cos(a) - p.y*sin(a), p.x*sin(a) + p.y*cos(a)}; }
-pt rotate_to_b(pt a, pt b, lf ang) { return rot(a-b, ang)+b; } // rotate by ang center b
+// dot x = 90 -> cos = 0
+T dot(pt a, pt b) { return a.x*b.x + a.y*b.y; } 
+// cross x = 180 -> sin = 0
+T cross(pt a, pt b) { return a.x*b.y - a.y*b.x; }
+// orient // clockwise = -
+T orient(pt a, pt b, pt c) { return cross(b-a, c-a); } 
+pt rot(pt p, lf a) { 
+  return{p.x*cos(a)-p.y*sin(a),p.x*sin(a)+p.y*cos(a)};}
+// rotate by ang center b
+pt rotate_to_b(pt a, pt b, lf ang) { 
+  return rot(a-b, ang)+b; } 
 pt rot90ccw(pt p) { return {-p.y, p.x}; }
 pt rot90cw(pt p) { return {p.y, -p.x}; }
 pt translate(pt p, pt v) { return p+v; }
-pt scale(pt p, double f, pt c) { return c + (p-c)*f; } // c-center
+pt scale(pt p,double f,pt c){return c+(p-c)*f;}//c-cent
 bool are_perp(pt v, pt w) { return dot(v, w) == 0; }
 int sign(T x) { return (T(0) < x) - (x < T(0)); }
-
-bool in_angle(pt a, pt b, pt c, pt x) { // x inside angle abc (center in a)
+// in_angle x inside angle abc (center in a)
+bool in_angle(pt a, pt b, pt c, pt x) { 
     assert(orient(a, b, c) != 0);
     if (orient(a, b, c) < 0) swap(b, c);
     return orient(a, b, x) >= 0 && orient(a, c, x) <= 0;
 }
 // angle bwn 2 vectors [0, pi] -> [0, 180] and (-pi, 0) -> (180, 360)
-lf angle(pt a, pt b) { return acos(max(-1.0, min(1.0, dot(a, b)/abs(a)/abs(b)))); }
-lf angle(pt a, pt b) { return atan2(cross(a, b), dot(a, b)); }
+lf angle(pt a, pt b) { 
+return acos(max(-1.0,min(1.0,dot(a,b)/abs(a)/abs(b))));
+}
+lf angle(pt a,pt b){return atan2(cross(a,b),dot(a,b));}
 lf angle360(pt a, pt b) { // [0, 360)
-    lf ang = angle(a, b); return (ang < 0 ? ang+2*PI : ang) * 360/(2*PI);
-}
+  lf ang = angle(a, b); 
+  return (ang<0?ang+2*PI:ang)*360/(2*PI); }
 // returns vector to transform points
-pt get_linear_transformation(pt p, pt q, pt r, pt fp, pt fq) {
-    pt pq = q-p, num{cross(pq, fq-fp), dot(pq, fq-fp)};
-    return fp + pt{cross(r-p, num), dot(r-p, num)} / norm(pq);
+pt get_linear_transformation(pt p,pt q,pt r,
+  pt fp,pt fq) { 
+  pt pq = q-p, num{cross(pq, fq-fp), dot(pq, fq-fp)};
+  return fp+pt{cross(r-p, num),dot(r-p,num)}/norm(pq);
 }
-bool half(pt p) { // true if is in (0, 180] (line is x axis)
-    assert(p.x != 0 || p.y != 0); // the argument of (0, 0) is undefined
-    return p.y > 0 || (p.y == 0 && p.x < 0);
+bool half(pt p) {//true if isin(0, 180](line is x axis)
+  // the argument of (0, 0) is undefined
+  assert(p.x != 0 || p.y != 0); 
+  return p.y > 0 || (p.y == 0 && p.x < 0);
 }
-bool half_from(pt p, pt v = {1, 0}) { // line is v (above v is true)
-    return cross(v, p) < 0 || (cross(v, p) == 0 && dot(v, p) < 0);
+bool half_from(pt p, pt v = {1, 0}) { 
+  // line is v (above v is true)
+  return cross(v,p)<0||(cross(v,p)==0&&dot(v, p) < 0);
 }
-bool polar_cmp(const pt &a, const pt &b) { // polar sort
-    return make_tuple(half(a), 0) < make_tuple(half(b), cross(a, b));
-    // return make_tuple(half(a), 0, sq(a)) < make_tuple(half(b), cross(a, b), sq(b)); // further ones appear later
-}
+bool polar_cmp(const pt &a, const pt &b) {// polar sort
+  return make_tuple(half(a),0)
+        <make_tuple(half(b),cross(a,b));
+/* return make_tuple(half(a), 0,sq(a)) < 
+  make_tuple(half(b),cross(a, b),sq(b)); 
+  further ones appear later */ }

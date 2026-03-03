@@ -1,7 +1,6 @@
 using Type = int;
 struct min_sparse {
-  int log;
-  vector<vector<Type>> sparse;
+  int log; vector<vector<Type>> sparse;
   void init(vector<Type> &nums) {
     int n = nums.size(); log = 0;
     while (n) log++, n/=2;
@@ -11,13 +10,9 @@ struct min_sparse {
     for (int l = 1; l < log; l++) {
       for (int j = 0; j + (1 << l) - 1 < n; j++) {
         sparse[j][l] = min(sparse[j][l-1], 
-                        sparse[j+(1 << (l-1))][l-1]);
-      }
-    }
-  }
+                    sparse[j+(1 << (l-1))][l-1]); } } }
   Type query(int x, int y) {
     int n=y-x+1; int logg = 31-__builtin_clz(n);
     return min(sparse[x][logg], 
               sparse[y-(1<<logg)+1][logg]);
-  }
-};
+  } };

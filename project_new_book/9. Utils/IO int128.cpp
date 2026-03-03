@@ -3,11 +3,10 @@ __int128 read() {
   while (ch<'0'||ch>'9'){ if (ch == '-') f = -1;
     ch = getchar(); }
   while (ch>='0'&& ch <= '9') {
-    x = x * 10 + ch - '0';
-    ch = getchar(); }
+    x = x * 10 + ch - '0'; ch = getchar(); }
   return x * f; }
 
 void print(__int128 x) {
   if (x < 0) { cout << "-"; x = -x; }
   if (x > 9) print(x / 10);
-  cout << char((int)(x % 10) + '0');}
+  cout << char((int)(x % 10) + '0'); }

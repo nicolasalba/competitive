@@ -34,7 +34,8 @@ struct polygon {
       return per;
   }
   bool above(pt a, pt p) { return p.y >= a.y; }
-  bool crosses_ray(pt a, pt p, pt q) {// pq crosses ray from a
+  bool crosses_ray(pt a, pt p, pt q) {
+    // pq crosses ray from a
     return (above(a, q)-above(a, p))*orient(a, p, q)>0;
   }
   int in_polygon(pt a) {
@@ -92,8 +93,9 @@ struct polygon {
     for (int it = 0; it < 2; it++) {
       int start = ch.size();
       for (auto &a : p) {
-        // if colineal are needed, use < and remove repeated points
-        while (ch.size() >= start+2 && orient(ch[ch.size()-2], ch.back(), a) <= 0) 
+//if colineal are needed,use<and remove repeated points
+        while (ch.size() >= start+2 && 
+            orient(ch[ch.size()-2], ch.back(), a) <= 0) 
           ch.pop_back();
         ch.pb(a);
       }
@@ -109,18 +111,23 @@ struct polygon {
     int n = p.size();
     if (n == 2) ans.pb({0, 1});
     if (n < 3) return ans;
-    auto nxt = [&](int x) { return (x+1 == n ? 0 : x+1); };
-    auto area2 = [&](pt a, pt b, pt c) { return cross(b-a, c-a); };
+    auto nxt = [&](int x) { 
+      return (x+1 == n ? 0 : x+1); };
+    auto area2 = [&](pt a, pt b, pt c) { 
+      return cross(b-a, c-a); };
     int b0 = 0;
-    while (abs(area2(p[n - 1], p[0], p[nxt(b0)])) > abs(area2(p[n - 1], p[0], p[b0]))) ++b0;
+    while (abs(area2(p[n - 1], p[0], p[nxt(b0)])) 
+        > abs(area2(p[n - 1], p[0], p[b0]))) ++b0;
     for (int b = b0, a = 0; b != 0 && a <= b0; ++a) {
       ans.pb({a, b});
-      while (abs(area2(p[a], p[nxt(a)], p[nxt(b)])) > abs(area2(p[a], p[nxt(a)], p[b]))) {
+      while (abs(area2(p[a], p[nxt(a)], p[nxt(b)]))
+        > abs(area2(p[a], p[nxt(a)], p[b]))) {
         b = nxt(b);
         if (a != b0 || b != 0) ans.pb({ a, b });
         else return ans;
       }
-      if (abs(area2(p[a], p[nxt(a)], p[nxt(b)])) == abs(area2(p[a], p[nxt(a)], p[b]))) {
+      if (abs(area2(p[a], p[nxt(a)], p[nxt(b)])) 
+              == abs(area2(p[a], p[nxt(a)], p[b]))) {
         if (a != b0 || b != n-1) ans.pb({ a, nxt(b) });
         else ans.pb({ nxt(a), b });
       }
@@ -140,7 +147,8 @@ struct polygon {
     ll boundary = 0;
     for (int i = 0, n = p.size(); i < n; i++) {
       int j = (i+1 == n ? 0 : i+1);
-      boundary += __gcd((ll)abs(p[i].x - p[j].x), (ll)abs(p[i].y - p[j].y));
+      boundary += __gcd((ll)abs(p[i].x - p[j].x), 
+                          (ll)abs(p[i].y - p[j].y));
     }
     return area() + 1 - boundary/2;
   }
